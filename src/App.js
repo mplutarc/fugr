@@ -1,12 +1,17 @@
 
 import './App.css';
+import SmallBase from "./components/SmallBase";
+import LargeBase from "./components/LargeBase";
 import React from "react";
-import MainBase from "./components/MainBase";
 
 function App() {
+
+
   return (
     <div className="App">
-	    <MainBase/>
+	    <SmallBase/>
+	    {/*<LargeBase/>*/}
+	    {/*<div className={LargeBase()}/>*/}
     </div>
   );
 }
