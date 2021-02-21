@@ -9,9 +9,11 @@ function App() {
 
   return (
     <div className="App">
+	    <button>
+		    Show small base
+	    </button>
 	    <SmallBase/>
 	    {/*<LargeBase/>*/}
-	    {/*<div className={LargeBase()}/>*/}
     </div>
   );
 }

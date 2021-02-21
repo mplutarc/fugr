@@ -1,35 +1,56 @@
-import React from 'react'
+import React, {useMemo} from 'react'
 
-export default class SmallBase extends React.Component{
 
-    state = {
-        loading:true,
-        person: null,
-    };
+class SmallBase extends React.Component{
+	constructor(props) {
+		super(props);
 
-    async componentDidMount() {
-        const url = "http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}";
-        const response = await fetch(url);
-        const data = await response.json();
-        console.log(data);
-        this.setState({person:data[0], loading: false})
-    }
+		this.state = {
+			loading: true,
+			users: []
+		};
+	}
 
-    render() {
-        return <div>
-            {this.state.loading ? (
-                <div>loading..</div>
-                ) : (
-                <div>
-                    <div>{this.state.person.id}</div>
-                    <div>{this.state.person.firstName} {this.state.person.lastName}</div>
-                    <div>{this.state.person.email}</div>
-                    <div>{this.state.person.phone}</div>
-                    <div>{this.state.person.address.city}</div>
-                    <div>{this.state.person.address.streetAddress}</div>
-                    <div>{this.state.person.description}</div>
-                </div>
-            )}
-        </div>;
-    }
+	async componentDidMount() {
+		const url = "http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}";
+		await fetch(url)
+			.then(response => response.json())
+			.then(users => {
+				this.setState({users})
+			});
+		this.setState({loading:false})
+		console.log(this.state.users);
+	}
+
+	render() {
+
+
+		if (this.state.loading)
+			return <div>...loading...</div>
+		else if (!this.state.users)
+			return <div>no data</div>;
+		else
+			return (
+				<div>
+					<table>
+						<tr>
+							<th>First name</th>
+							<th>Last name</th>
+							<th>Email</th>
+							<th>Phone</th>
+						</tr>
+						{this.state.users.map((user) => (
+							<tr>
+								<td key={user.id}>{user.firstName}</td>
+								<td>{user.lastName}</td>
+								<td>{user.email}</td>
+								<td>{user.phone}</td>
+							</tr>
+						))}
+					</table>
+
+				</div>
+			);
+	}
 }
+export default SmallBase

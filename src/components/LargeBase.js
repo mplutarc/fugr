@@ -1,27 +1,53 @@
-import React, {useState, useEffect} from 'react'
-import axios from 'axios';
+import React from 'react'
+import ReactTable from "react-table";
 
-export default class LargeBase extends React.Component{
+class SmallBase extends React.Component{
 	constructor(props) {
 		super(props);
 
 		this.state = {
 			loading: true,
-			// data: null,
-			hits: []
+			users: []
 		};
 	}
 
 	async componentDidMount() {
 		const url = "http://www.filltext.com/?rows=1000&id={number|1000}&firstName={firstName}&delay=3&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}";
-		fetch(url)
+		await fetch(url)
 			.then(response => response.json())
-			.then(data => this.setState({hits: data.hits}));
-		this.state.loading = false;
+			.then(users => {
+				this.setState({users})
+			});
+		this.setState({loading:false})
+		console.log(this.state.users);
 	}
-
 	render() {
-		return <div></div>;
-	}
 
+		if (this.state.loading)
+			return <div>...loading...</div>
+		else if (!this.state.users)
+			return <div>no data</div>;
+		else
+			return (
+				<div>
+					<table>
+						<tr>
+							<th>First name</th>
+							<th>Last name</th>
+							<th>Email</th>
+							<th>Phone</th>
+						</tr>
+						{this.state.users.map((user) => (
+							<tr>
+								<td key={user.id}>{user.firstName}</td>
+								<td>{user.lastName}</td>
+								<td>{user.email}</td>
+								<td>{user.phone}</td>
+							</tr>
+						))}
+					</table>
+				</div>
+			);
+	}
 }
+export default SmallBase
