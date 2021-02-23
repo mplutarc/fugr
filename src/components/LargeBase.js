@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactTable from "react-table";
+import ReactTable from "react-table"
 
 class SmallBase extends React.Component{
 	constructor(props) {
@@ -7,7 +7,7 @@ class SmallBase extends React.Component{
 
 		this.state = {
 			loading: true,
-			users: []
+			users: props.users
 		};
 	}
 
@@ -20,6 +20,26 @@ class SmallBase extends React.Component{
 			});
 		this.setState({loading:false})
 		console.log(this.state.users);
+	}
+
+	componentWillUpdate(nextProps, nextState, nextContent) {
+		const {sortBy: prevSortBy, sortDirection: prevSortDirection} = this.state;
+
+		if (
+			nextState.sortBy !== prevSortBy ||
+			nextState.sortDirection !== prevSortDirection
+		) {
+			const {sortBy, sortDirection} = nextState;
+
+			let {users} = this.props;
+
+			if (users) {
+				users = users.sortBy(item => item[sortBy]);
+				if (sortDirection === sortDirection.DESC) {
+					users = users.reverse();
+				}
+			}
+		}
 	}
 	render() {
 

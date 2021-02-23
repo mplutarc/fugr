@@ -1,4 +1,3 @@
-
 import './App.css';
 import SmallBase from "./components/SmallBase";
 import LargeBase from "./components/LargeBase";
@@ -9,6 +8,7 @@ function App() {
 
   return (
     <div className="App">
+
 	    <button>
 		    Show small base
 	    </button>
