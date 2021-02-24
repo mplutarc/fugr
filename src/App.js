@@ -24,14 +24,14 @@ function App() {
 
   return (
     <div className="App">
-		<div className="buttons">
-			<Button onClick={showSmall}>
-			    Show small base
+			<Button variant="outlined" size="medium"
+			        onClick={showSmall}>
+			    Small base (32)
 		    </Button>
-		    <Button onClick={showLarge}>
-			    Show large base
+		    <Button variant="outlined" size="medium"
+		            onClick={showLarge}>
+			    Large base (1000)
 			</Button>
-		</div>
 	    <LargeBase/>
 	    <SmallBase/>
     </div>
